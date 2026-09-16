@@ -9,9 +9,57 @@
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Fredoka',system-ui}
 body{background:radial-gradient(circle at top,#1e3a5f,#050a14);color:#fff;min-height:100vh;display:flex;flex-direction:column;align-items:center;overflow:hidden}
 .top{width:100%;max-width:480px;padding:14px 18px;display:flex;justify-content:space-between;align-items:center}
-.logo{font-size:22px;font-weight:700;letter-spacing:1px}
-.logo b{color:#22c55e}
-.stats{display:flex;gap:10px}
-.stat{background:#ffffff14;border:1px solid #ffffff22;padding:6px 14px;border-radius:50px;font-size:14px;backdrop-filter:blur(10px)}
+.logo{font-size:22px;font-weight:700}.logo b{color:#22c55e}
+.stats{display:flex;gap:10px}.stat{background:#ffffff14;border:1px solid #ffffff22;padding:6px 14px;border-radius:50px;font-size:14px}
 .stat span{color:#22c55e;font-weight:700}
-.game-wrap{position:relative;width:95vw;max-width:420px;aspect-ratio:1;background:#0f1d33;border-radius:28
+.game-wrap{position:relative;width:95vw;max-width:420px;aspect-ratio:1;background:#0f1d33;border-radius:28px;padding:10px;box-shadow:0 20px 60px #0008,inset 0 0 0 2px #22c55e44}
+canvas{width:100%;height:100%;background:radial-gradient(circle at center,#132a4d,#0a1426);border-radius:20px;display:block;touch-action:none}
+#ui{position:absolute;inset:10px;border-radius:20px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(180deg,#0a1426f2,#050a14f2);backdrop-filter:blur(12px);transition:0.4s}
+#ui.hide{opacity:0;pointer-events:none;transform:scale(1.05)}
+h1{font-size:42px}h1 i{font-style:normal;color:#22c55e}
+.sub{color:#8aa0c0;margin:8px 0 18px}
+.btn{border:none;padding:14px 36px;border-radius:50px;font-size:18px;font-weight:700;cursor:pointer}
+.btn-primary{background:linear-gradient(180deg,#4ade80,#22c55e);color:#000;box-shadow:0 8px 20px #22c55e55}
+.row{display:flex;gap:10px;margin-top:14px}.btn-small{background:#ffffff14;color:#fff;border:1px solid #ffffff22;padding:10px 18px;border-radius:50px;font-size:14px}
+.controls{width:100%;max-width:420px;padding:14px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:10px}
+.cbtn{height:62px;background:#ffffff0d;border:1px solid #ffffff1a;border-radius:18px;color:#fff;font-size:26px}
+.cbtn:active{background:#22c55e;color:#000}
+.footer{margin-top:auto;padding:12px;color:#5a7294;font-size:12px;text-align:center}
+.skin-row{display:flex;gap:8px;margin:12px}.skin{width:32px;height:32px;border-radius:50%;border:3px solid transparent}
+.skin.active{border-color:#fff;box-shadow:0 0 0 3px #22c55e}
+</style>
+</head>
+<body>
+<div class="top"><div class="logo">🐍 SNAKE <b>PRO MAX</b></div><div class="stats"><div class="stat">🍎 <span id="s">0</span></div><div class="stat">👑 <span id="b">0</span></div></div></div>
+<div class="game-wrap"><canvas id="c" width="400" height="400"></canvas>
+<div id="ui"><h1>SNAKE <i>PRO</i></h1><p class="sub">Hero Edition - Swipe & Play</p>
+<div class="skin-row">
+<div class="skin active" style="background:#22c55e" onclick="setSkin('#22c55e',this)"></div>
+<div class="skin" style="background:#38bdf8" onclick="setSkin('#38bdf8',this)"></div>
+<div class="skin" style="background:#facc15" onclick="setSkin('#facc15',this)"></div>
+<div class="skin" style="background:#f472b6" onclick="setSkin('#f472b6',this)"></div>
+<div class="skin" style="background:#a78bfa" onclick="setSkin('#a78bfa',this)"></div>
+</div>
+<button class="btn btn-primary" onclick="start()">▶️ PLAY NOW</button>
+<div class="row"><button class="btn-small" onclick="shareGame()">📤 Share</button><button class="btn-small" onclick="toggleSound()" id="soundBtn">🔊 Sound</button></div>
+<p style="margin-top:14px;font-size:12px;color:#6b84a8">Swipe anywhere • Don't hit yourself!</p></div></div>
+<div class="controls"><div></div><button class="cbtn" ontouchstart="dirQ('up')" onmousedown="dirQ('up')">▲</button><div></div><button class="cbtn" ontouchstart="dirQ('left')" onmousedown="dirQ('left')">◀</button><button class="cbtn" ontouchstart="dirQ('down')" onmousedown="dirQ('down')">▼</button><button class="cbtn" ontouchstart="dirQ('right')" onmousedown="dirQ('right')">▶</button></div>
+<div class="footer">Made with 💚 by Hero • Best Score auto save</div><script>
+let cv=document.getElementById('c'),ctx=cv.getContext('2d'),box=20,snake=[],dir='right',next='right',food,score=0,best=localStorage.getItem('proBest')||0,loop,snakeColor='#22c55e',sound=true;
+document.getElementById('b').innerText=best;let audioCtx;
+function beep(f,d){if(!sound)return;try{if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();let o=audioCtx.createOscillator(),g=audioCtx.createGain();o.frequency.value=f;o.connect(g);g.connect(audioCtx.destination);g.gain.setValueAtTime(0.2,audioCtx.currentTime);o.start();o.stop(audioCtx.currentTime+d)}catch(e){}}
+function setSkin(c,el){snakeColor=c;document.querySelectorAll('.skin').forEach(s=>s.classList.remove('active'));el.classList.add('active');beep(600,0.08)}
+function spawn(){food={x:Math.floor(Math.random()*19+1)*box,y:Math.floor(Math.random()*19+1)*box};if(snake.some(s=>s.x==food.x&&s.y==food.y))spawn()}
+function init(){snake=[{x:10*box,y:10*box},{x:9*box,y:10*box},{x:8*box,y:10*box}];dir='right';next='right';score=0;document.getElementById('s').innerText=0;spawn()}
+function drawGrid(){ctx.fillStyle='#0e1e36';for(let i=0;i<20;i++)for(let j=0;j<20;j++){if((i+j)%2==0){ctx.fillRect(i*box,j*box,box,box)}}}
+function draw(){drawGrid();ctx.shadowBlur=15;ctx.shadowColor='#f43f5e';ctx.fillStyle='#ff5a65';ctx.beginPath();ctx.arc(food.x+10,food.y+10,8,0,Math.PI*2);ctx.fill();ctx.shadowBlur=0;snake.forEach((s,i)=>{ctx.fillStyle=i==0?snakeColor:'#ffffff';ctx.globalAlpha=i==0?1:0.7- i*0.02;ctx.beginPath();ctx.roundRect(s.x+1,s.y+1,box-2,box-2,6);ctx.fill();ctx.globalAlpha=1;if(i==0){ctx.fillStyle='#000';ctx.beginPath();ctx.arc(s.x+7,s.y+7,2.5,0,Math.PI*2);ctx.arc(s.x+13,s.y+7,2.5,0,Math.PI*2);ctx.fill()}});dir=next;let h={x:snake[0].x,y:snake[0].y};if(dir=='left')h.x-=box;if(dir=='right')h.x+=box;if(dir=='up')h.y-=box;if(dir=='down')h.y+=box;if(h.x<0||h.x>=400||h.y<0||h.y>=400||snake.some(p=>p.x==h.x&&p.y==h.y)){over();return}snake.unshift(h);if(h.x==food.x&&h.y==food.y){score++;document.getElementById('s').innerText=score;beep(900,0.1);spawn();if(score>best){best=score;localStorage.setItem('proBest',best);document.getElementById('b').innerText=best}}else snake.pop()}
+function dirQ(d){if(d=='left'&&dir!='right')next='left';if(d=='right'&&dir!='left')next='right';if(d=='up'&&dir!='down')next='up';if(d=='down'&&dir!='up')next='down'}
+function start(){document.getElementById('ui').classList.add('hide');init();clearInterval(loop);loop=setInterval(draw,100);beep(500,0.1)}
+function over(){clearInterval(loop);beep(200,0.4);let ui=document.getElementById('ui');ui.classList.remove('hide');ui.innerHTML=`<h1 style="color:#ff5a65">GAME OVER!</h1><p class="sub">Score: ${score} • Best: ${best}</p><div style="font-size:50px;margin:10px">${score>15?'🏆':score>8?'🔥':'💪'}</div><button class="btn btn-primary" onclick="start()">🔄 PLAY AGAIN</button><div class="row"><button class="btn-small" onclick="shareGame()">📤 Share Score</button><button class="btn-small" onclick="location.reload()">🏠 Menu</button></div>`}
+function toggleSound(){sound=!sound;document.getElementById('soundBtn').innerText=sound?'🔊 Sound':'🔇 Off';beep(600,0.08)}
+function shareGame(){let t=`🐍 Snake Pro Max me mera score ${score} hai! Best: ${best} - Khelo: https://naveedaziz2312.github.io/tarteel-clone/`;if(navigator.share){navigator.share({title:'Snake Pro Max',text:t,url:location.href})}else{navigator.clipboard.writeText(t);alert('Link copy! '+t)}}
+let sx,sy;cv.addEventListener('touchstart',e=>{sx=e.touches[0].clientX;sy=e.touches[0].clientY},{passive:true});cv.addEventListener('touchend',e=>{let dx=e.changedTouches[0].clientX-sx,dy=e.changedTouches[0].clientY-sy;if(Math.abs(dx)<15&&Math.abs(dy)<15)return;if(Math.abs(dx)>Math.abs(dy)){dx>0?dirQ('right'):dirQ('left')}else{dy>0?dirQ('down'):dirQ('up')}},{passive:true});
+document.addEventListener('keydown',e=>{if(e.key=='ArrowLeft')dirQ('left');if(e.key=='ArrowRight')dirQ('right');if(e.key=='ArrowUp')dirQ('up');if(e.key=='ArrowDown')dirQ('down');if(e.key==' ')start()});init();
+</script>
+</body>
+</html>
