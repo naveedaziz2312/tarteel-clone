@@ -1,63 +1,17 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
-<title>Snake Pro - Hero Game</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Snake Pro Max - Hero Edition</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&display=swap" rel="stylesheet">
 <style>
-body{margin:0;background:#0f172a;color:white;text-align:center;font-family:sans-serif;touch-action:none}
-h2{margin:10px;color:#22c55e}
-#scoreBox{font-size:20px;margin:10px}
-canvas{background:#1e293b;border:4px solid #22c55e;border-radius:12px;display:block;margin:10px auto;box-shadow:0 0 20px #22c55e66}
-.controls{display:grid;grid-template-columns:60px 60px 60px;gap:10px;justify-content:center;margin:20px}
-.btn{background:#22c55e;color:#000;font-size:24px;padding:18px;border:none;border-radius:12px;font-weight:bold;box-shadow:0 4px 0 #15803d}
-.btn:active{transform:translateY(3px);box-shadow:0 1px 0 #15803d}
-#startBtn{padding:15px 50px;font-size:22px;background:#facc15;border-radius:50px;margin:10px}
-</style>
-</head>
-<body>
-<h2>🐍 SNAKE GAME - HERO</h2>
-<div id="scoreBox">Score: <span id="score">0</span> | High: <span id="high">0</span></div>
-<canvas id="game" width="320" height="320"></canvas>
-<button id="startBtn" onclick="startGame()">▶️ PLAY</button>
-<div class="controls">
-<div></div><button class="btn" onclick="changeDir('up')">▲</button><div></div>
-<button class="btn" onclick="changeDir('left')">◀</button><button class="btn" onclick="changeDir('down')">▼</button><button class="btn" onclick="changeDir('right')">▶</button>
-</div>
-<script>
-let canvas=document.getElementById('game'),ctx=canvas.getContext('2d');
-let box=16, snake, dir, food, score, gameLoop, high=localStorage.getItem('snakeHigh')||0;
-document.getElementById('high').innerText=high;
-function init(){
-snake=[{x:9*box,y:10*box}]; dir='right'; score=0;
-document.getElementById('score').innerText=score;
-food={x:Math.floor(Math.random()*19+1)*box,y:Math.floor(Math.random()*19+1)*box};
-}
-function draw(){
-ctx.fillStyle='#1e293b'; ctx.fillRect(0,0,320,320);
-snake.forEach((s,i)=>{
-ctx.fillStyle=i==0?'#22c55e':'#4ade80';
-ctx.fillRect(s.x,s.y,box-1,box-1);
-});
-ctx.fillStyle='#f87171'; ctx.fillRect(food.x,food.y,box-1,box-1);
-let head={x:snake[0].x,y:snake[0].y};
-if(dir=='left') head.x-=box; if(dir=='right') head.x+=box; if(dir=='up') head.y-=box; if(dir=='down') head.y+=box;
-if(head.x<0||head.x>=320||head.y<0||head.y>=320||snake.some(s=>s.x==head.x&&s.y==head.y)){gameOver();return;}
-snake.unshift(head);
-if(head.x==food.x&&head.y==food.y){score++;document.getElementById('score').innerText=score;if(score>high){high=score;localStorage.setItem('snakeHigh',high);document.getElementById('high').innerText=high}food={x:Math.floor(Math.random()*19+1)*box,y:Math.floor(Math.random()*19+1)*box};}else snake.pop();
-}
-function changeDir(d){
-if(d=='left'&&dir!='right') dir='left';
-if(d=='right'&&dir!='left') dir='right';
-if(d=='up'&&dir!='down') dir='up';
-if(d=='down'&&dir!='up') dir='down';
-}
-function startGame(){init();clearInterval(gameLoop);gameLoop=setInterval(draw,120);document.getElementById('startBtn').innerText='🔄 RESTART';}
-function gameOver(){clearInterval(gameLoop);ctx.fillStyle='rgba(0,0,0,0.7)';ctx.fillRect(0,0,320,320);ctx.fillStyle='white';ctx.font='24px sans-serif';ctx.fillText('GAME OVER!',80,160);ctx.fillText('Score: '+score,110,190);document.getElementById('startBtn').innerText='▶️ PLAY AGAIN';}
-document.addEventListener('keydown',e=>{if(e.key=='ArrowLeft')changeDir('left');if(e.key=='ArrowRight')changeDir('right');if(e.key=='ArrowUp')changeDir('up');if(e.key=='ArrowDown')changeDir('down');});
-// swipe
-let sx,sy;canvas.addEventListener('touchstart',e=>{sx=e.touches[0].clientX;sy=e.touches[0].clientY});canvas.addEventListener('touchend',e=>{let dx=e.changedTouches[0].clientX-sx,dy=e.changedTouches[0].clientY-sy;if(Math.abs(dx)>Math.abs(dy)){if(dx>0)changeDir('right');else changeDir('left')}else{if(dy>0)changeDir('down');else changeDir('up')}});
-init();
-</script>
-</body>
-</html>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Fredoka',system-ui}
+body{background:radial-gradient(circle at top,#1e3a5f,#050a14);color:#fff;min-height:100vh;display:flex;flex-direction:column;align-items:center;overflow:hidden}
+.top{width:100%;max-width:480px;padding:14px 18px;display:flex;justify-content:space-between;align-items:center}
+.logo{font-size:22px;font-weight:700;letter-spacing:1px}
+.logo b{color:#22c55e}
+.stats{display:flex;gap:10px}
+.stat{background:#ffffff14;border:1px solid #ffffff22;padding:6px 14px;border-radius:50px;font-size:14px;backdrop-filter:blur(10px)}
+.stat span{color:#22c55e;font-weight:700}
+.game-wrap{position:relative;width:95vw;max-width:420px;aspect-ratio:1;background:#0f1d33;border-radius:28
