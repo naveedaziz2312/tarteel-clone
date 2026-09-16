@@ -1,0 +1,10 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "io.github.naveedaziz2312.twa",
+      "sha256_cert_fingerprints": ["BE:5A:EC:33:E6:98:4F:32:15:DD:C6:B6:1D:42:B6:BA:EE:CA:89:5B:5E:B4:E6:14:41:68:12:A3:E6:79:4B:BC"]
+    }
+  }
+]
