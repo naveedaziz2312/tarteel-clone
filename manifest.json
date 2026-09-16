@@ -1,0 +1,15 @@
+{
+  "name": "Snake Pro Max",
+  "short_name": "Snake Pro",
+  "start_url": "/tarteel-clone/",
+  "display": "standalone",
+  "background_color": "#050a14",
+  "theme_color": "#22c55e",
+  "icons": [
+    {
+      "src": "icon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
