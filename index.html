@@ -3,64 +3,111 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<title>Snake Pro Max - Hero Edition</title>
+<title>Snake Pro Max - Hero Edition V2</title>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&display=swap" rel="stylesheet">
-  <link rel="manifest" href="manifest.json">
+<link rel="manifest" href="manifest.json">
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Fredoka',system-ui}
-body{background:radial-gradient(circle at top,#1e3a5f,#050a14);color:#fff;min-height:100vh;display:flex;flex-direction:column;align-items:center;overflow:hidden}
-.top{width:100%;max-width:480px;padding:14px 18px;display:flex;justify-content:space-between;align-items:center}
-.logo{font-size:22px;font-weight:700}.logo b{color:#22c55e}
-.stats{display:flex;gap:10px}.stat{background:#ffffff14;border:1px solid #ffffff22;padding:6px 14px;border-radius:50px;font-size:14px}
+body{background:#0f172a;color:#fff;min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;overflow:hidden}
+.top{padding:12px 16px;display:flex;justify-content:space-between;align-items:center;background:#1e293b88;backdrop-filter:blur(10px)}
+.logo{font-size:20px;font-weight:700}.logo b{color:#22c55e}
+.stats{display:flex;gap:8px}
+.stat{background:#ffffff14;border:1px solid #ffffff22;padding:6px 14px;border-radius:50px;font-size:14px}
 .stat span{color:#22c55e;font-weight:700}
-.game-wrap{position:relative;width:95vw;max-width:420px;aspect-ratio:1;background:#0f1d33;border-radius:28px;padding:10px;box-shadow:0 20px 60px #0008,inset 0 0 0 2px #22c55e44}
-canvas{width:100%;height:100%;background:radial-gradient(circle at center,#132a4d,#0a1426);border-radius:20px;display:block;touch-action:none}
-#ui{position:absolute;inset:10px;border-radius:20px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(180deg,#0a1426f2,#050a14f2);backdrop-filter:blur(12px);transition:0.4s}
-#ui.hide{opacity:0;pointer-events:none;transform:scale(1.05)}
-h1{font-size:42px}h1 i{font-style:normal;color:#22c55e}
-.sub{color:#8aa0c0;margin:8px 0 18px}
-.btn{border:none;padding:14px 36px;border-radius:50px;font-size:18px;font-weight:700;cursor:pointer}
-.btn-primary{background:linear-gradient(180deg,#4ade80,#22c55e);color:#000;box-shadow:0 8px 20px #22c55e55}
-.row{display:flex;gap:10px;margin-top:14px}.btn-small{background:#ffffff14;color:#fff;border:1px solid #ffffff22;padding:10px 18px;border-radius:50px;font-size:14px}
-.controls{width:100%;max-width:420px;padding:14px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:10px}
-.cbtn{height:62px;background:#ffffff0d;border:1px solid #ffffff1a;border-radius:18px;color:#fff;font-size:26px}
-.cbtn:active{background:#22c55e;color:#000}
-.footer{margin-top:auto;padding:12px;color:#5a7294;font-size:12px;text-align:center}
-.skin-row{display:flex;gap:8px;margin:12px}.skin{width:32px;height:32px;border-radius:50%;border:3px solid transparent}
-.skin.active{border-color:#fff;box-shadow:0 0 0 3px #22c55e}
+.game-wrap{flex:1;display:flex;flex-direction:column;position:relative;width:100%;max-width:600px;margin:0 auto;padding:8px;gap:8px}
+canvas{width:100%;aspect-ratio:1;background:radial-gradient(circle at center,#132a4d,#0a162e);border-radius:20px;display:block;touch-action:none;border:2px solid #22c55e44;box-shadow:0 0 40px #22c55e22}
+#ui{position:absolute;inset:8px;border-radius:20px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(180deg,#0f172aee 20%,#0f172af5);backdrop-filter:blur(8px);text-align:center;padding:20px}
+#ui.hide{opacity:0;pointer-events:none;transform:scale(1.05);transition:all.3s}
+h1{font-size:42px;line-height:.9}h1 span{color:#22c55e}
+.sub{color:#94a3b8;margin:8px 0 18px;font-size:16px}
+.skins{display:flex;gap:10px;margin:12px 0;flex-wrap:wrap;justify-content:center}
+.skin{width:38px;height:38px;border-radius:50%;border:3px solid transparent;cursor:pointer;transition:.2s}
+.skin.active{border-color:#fff;box-shadow:0 0 0 3px #22c55e, 0 0 15px #22c55e}
+.btn{border:none;padding:14px 28px;border-radius:50px;font-size:18px;font-weight:700;cursor:pointer;transition:.2s}
+.btn-primary{background:linear-gradient(180deg,#4ade80,#22c55e);color:#000;box-shadow:0 8px 20px #22c55e66;padding:16px 40px;font-size:20px}
+.btn-small{background:#ffffff14;color:#fff;border:1px solid #ffffff22;padding:10px 18px;font-size:14px}
+.row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:12px}
+.controls{width:100%;display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;padding:6px 0 10px}
+.cbtn{height:62px;background:#ffffff0f;border:1px solid #ffffff1a;border-radius:18px;color:#fff;font-size:26px;backdrop-filter:blur(10px)}
+.cbtn:active{background:#22c55e;color:#000;transform:scale(.95)}
+.footer{padding:8px;text-align:center;font-size:11px;color:#5a7294}
+.settings-btn{position:absolute;top:14px;right:14px;background:#ffffff14;border:1px solid #ffffff22;width:42px;height:42px;border-radius:12px;font-size:20px;z-index:5}
+#settings{position:absolute;inset:0;background:#0f172af2;backdrop-filter:blur(12px);z-index:20;padding:20px;display:none;overflow:auto}
+#settings.open{display:block}
+.set-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
+.set-card{background:#ffffff0f;border:1px solid #ffffff14;border-radius:18px;padding:14px;margin-bottom:12px}
+.set-title{font-size:14px;color:#94a3b8;margin-bottom:10px;text-transform:uppercase;letter-spacing:1px}
+.levels{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.lvl{padding:12px;border-radius:12px;background:#ffffff0a;border:1px solid #ffffff14;text-align:center;cursor:pointer}
+.lvl.active{background:#22c55e;color:#000;border-color:#22c55e;font-weight:700}
+.toggles{display:flex;flex-direction:column;gap:10px}
+.tog{display:flex;justify-content:space-between;align-items:center;padding:10px 0}
+.switch{width:52px;height:30px;background:#334155;border-radius:30px;position:relative;cursor:pointer;transition:.2s}
+.switch.on{background:#22c55e}
+.switch i{position:absolute;top:3px;left:3px;width:24px;height:24px;background:#fff;border-radius:50%;transition:.2s}
+.switch.on i{left:25px}
+.badge{display:inline-block;background:#22c55e;color:#000;padding:2px 8px;border-radius:20px;font-size:11px;margin-left:6px}
 </style>
 </head>
 <body>
-<div class="top"><div class="logo">🐍 SNAKE <b>PRO MAX</b></div><div class="stats"><div class="stat">🍎 <span id="s">0</span></div><div class="stat">👑 <span id="b">0</span></div></div></div>
-<div class="game-wrap"><canvas id="c" width="400" height="400"></canvas>
-<div id="ui"><h1>SNAKE <i>PRO</i></h1><p class="sub">Hero Edition - Swipe & Play</p>
-<div class="skin-row">
+<div class="top"><div class="logo">🐍 SNAKE <b>PRO MAX</b></div><div class="stats"><div class="stat">🔥 <span id="s">0</span></div><div class="stat">👑 <span id="b">0</span></div></div></div>
+<div class="game-wrap">
+<canvas id="c" width="400" height="400"></canvas>
+<button class="settings-btn" onclick="openSet()">⚙️</button>
+<div id="ui"><h1>SNAKE <span>PRO</span></h1><p class="sub">Hero Edition V2 - Full Screen</p><div class="skins">
 <div class="skin active" style="background:#22c55e" onclick="setSkin('#22c55e',this)"></div>
-<div class="skin" style="background:#38bdf8" onclick="setSkin('#38bdf8',this)"></div>
+<div class="skin" style="background:#3b82f8" onclick="setSkin('#3b82f8',this)"></div>
 <div class="skin" style="background:#facc15" onclick="setSkin('#facc15',this)"></div>
 <div class="skin" style="background:#f472b6" onclick="setSkin('#f472b6',this)"></div>
 <div class="skin" style="background:#a78bfa" onclick="setSkin('#a78bfa',this)"></div>
+</div><button class="btn btn-primary" onclick="start()">▶ PLAY NOW</button><div class="row"><button class="btn btn-small" onclick="shareGame()">🚀 Share</button><button class="btn btn-small" onclick="openSet()">⚙️ Settings</button></div><p style="margin-top:14px;font-size:12px;color:#6b8a8b">Swipe anywhere • Don't hit yourself! • Full touch</p></div>
+<div id="settings">
+<div class="set-head"><h2>⚙️ Settings</h2><button class="btn btn-small" onclick="closeSet()">✕ Close</button></div>
+<div class="set-card"><div class="set-title">🎮 Difficulty Level <span class="badge" id="lvlBadge">Medium</span></div><div class="levels">
+<div class="lvl" onclick="setLevel(120,this)">🐢 Easy</div><div class="lvl active" onclick="setLevel(90,this)">⚡ Medium</div><div class="lvl" onclick="setLevel(65,this)">🔥 Hard</div><div class="lvl" onclick="setLevel(45,this)">👑 Pro Max</div>
+</div></div>
+<div class="set-card"><div class="set-title">🎮 Controls</div><div class="levels">
+<div class="lvl active" id="ctrlBoth" onclick="setCtrl('both',this)">🎯 Both</div><div class="lvl" onclick="setCtrl('swipe',this)">👆 Swipe Only</div><div class="lvl" onclick="setCtrl('buttons',this)">🔘 Buttons</div><div class="lvl" onclick="setCtrl('joy',this)">🕹️ Big Buttons</div>
+</div></div>
+<div class="set-card"><div class="set-title">🔊 Audio & Effects</div><div class="toggles">
+<div class="tog"><span>🎵 Background Music</span><div class="switch on" id="swMusic" onclick="togMusic()"><i></i></div></div>
+<div class="tog"><span>🔊 Game Sounds</span><div class="switch on" id="swSound" onclick="togSound()"><i></i></div></div>
+<div class="tog"><span>📳 Vibration</span><div class="switch on" id="swVib" onclick="togVib()"><i></i></div></div>
+</div></div>
 </div>
-<button class="btn btn-primary" onclick="start()">▶️ PLAY NOW</button>
-<div class="row"><button class="btn-small" onclick="shareGame()">📤 Share</button><button class="btn-small" onclick="toggleSound()" id="soundBtn">🔊 Sound</button></div>
-<p style="margin-top:14px;font-size:12px;color:#6b84a8">Swipe anywhere • Don't hit yourself!</p></div></div>
-<div class="controls"><div></div><button class="cbtn" ontouchstart="dirQ('up')" onmousedown="dirQ('up')">▲</button><div></div><button class="cbtn" ontouchstart="dirQ('left')" onmousedown="dirQ('left')">◀</button><button class="cbtn" ontouchstart="dirQ('down')" onmousedown="dirQ('down')">▼</button><button class="cbtn" ontouchstart="dirQ('right')" onmousedown="dirQ('right')">▶</button></div>
-<div class="footer">Made with 💚 by Hero • Best Score auto save</div><script>
-let cv=document.getElementById('c'),ctx=cv.getContext('2d'),box=20,snake=[],dir='right',next='right',food,score=0,best=localStorage.getItem('proBest')||0,loop,snakeColor='#22c55e',sound=true;
-document.getElementById('b').innerText=best;let audioCtx;
-function beep(f,d){if(!sound)return;try{if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();let o=audioCtx.createOscillator(),g=audioCtx.createGain();o.frequency.value=f;o.connect(g);g.connect(audioCtx.destination);g.gain.setValueAtTime(0.2,audioCtx.currentTime);o.start();o.stop(audioCtx.currentTime+d)}catch(e){}}
-function setSkin(c,el){snakeColor=c;document.querySelectorAll('.skin').forEach(s=>s.classList.remove('active'));el.classList.add('active');beep(600,0.08)}
-function spawn(){food={x:Math.floor(Math.random()*19+1)*box,y:Math.floor(Math.random()*19+1)*box};if(snake.some(s=>s.x==food.x&&s.y==food.y))spawn()}
-function init(){snake=[{x:10*box,y:10*box},{x:9*box,y:10*box},{x:8*box,y:10*box}];dir='right';next='right';score=0;document.getElementById('s').innerText=0;spawn()}
-function drawGrid(){ctx.fillStyle='#0e1e36';for(let i=0;i<20;i++)for(let j=0;j<20;j++){if((i+j)%2==0){ctx.fillRect(i*box,j*box,box,box)}}}
-function draw(){drawGrid();ctx.shadowBlur=15;ctx.shadowColor='#f43f5e';ctx.fillStyle='#ff5a65';ctx.beginPath();ctx.arc(food.x+10,food.y+10,8,0,Math.PI*2);ctx.fill();ctx.shadowBlur=0;snake.forEach((s,i)=>{ctx.fillStyle=i==0?snakeColor:'#ffffff';ctx.globalAlpha=i==0?1:0.7- i*0.02;ctx.beginPath();ctx.roundRect(s.x+1,s.y+1,box-2,box-2,6);ctx.fill();ctx.globalAlpha=1;if(i==0){ctx.fillStyle='#000';ctx.beginPath();ctx.arc(s.x+7,s.y+7,2.5,0,Math.PI*2);ctx.arc(s.x+13,s.y+7,2.5,0,Math.PI*2);ctx.fill()}});dir=next;let h={x:snake[0].x,y:snake[0].y};if(dir=='left')h.x-=box;if(dir=='right')h.x+=box;if(dir=='up')h.y-=box;if(dir=='down')h.y+=box;if(h.x<0||h.x>=400||h.y<0||h.y>=400||snake.some(p=>p.x==h.x&&p.y==h.y)){over();return}snake.unshift(h);if(h.x==food.x&&h.y==food.y){score++;document.getElementById('s').innerText=score;beep(900,0.1);spawn();if(score>best){best=score;localStorage.setItem('proBest',best);document.getElementById('b').innerText=best}}else snake.pop()}
-function dirQ(d){if(d=='left'&&dir!='right')next='left';if(d=='right'&&dir!='left')next='right';if(d=='up'&&dir!='down')next='up';if(d=='down'&&dir!='up')next='down'}
-function start(){document.getElementById('ui').classList.add('hide');init();clearInterval(loop);loop=setInterval(draw,100);beep(500,0.1)}
-function over(){clearInterval(loop);beep(200,0.4);let ui=document.getElementById('ui');ui.classList.remove('hide');ui.innerHTML=`<h1 style="color:#ff5a65">GAME OVER!</h1><p class="sub">Score: ${score} • Best: ${best}</p><div style="font-size:50px;margin:10px">${score>15?'🏆':score>8?'🔥':'💪'}</div><button class="btn btn-primary" onclick="start()">🔄 PLAY AGAIN</button><div class="row"><button class="btn-small" onclick="shareGame()">📤 Share Score</button><button class="btn-small" onclick="location.reload()">🏠 Menu</button></div>`}
-function toggleSound(){sound=!sound;document.getElementById('soundBtn').innerText=sound?'🔊 Sound':'🔇 Off';beep(600,0.08)}
-function shareGame(){let t=`🐍 Snake Pro Max me mera score ${score} hai! Best: ${best} - Khelo: https://naveedaziz2312.github.io/tarteel-clone/`;if(navigator.share){navigator.share({title:'Snake Pro Max',text:t,url:location.href})}else{navigator.clipboard.writeText(t);alert('Link copy! '+t)}}
-let sx,sy;cv.addEventListener('touchstart',e=>{sx=e.touches[0].clientX;sy=e.touches[0].clientY},{passive:true});cv.addEventListener('touchend',e=>{let dx=e.changedTouches[0].clientX-sx,dy=e.changedTouches[0].clientY-sy;if(Math.abs(dx)<15&&Math.abs(dy)<15)return;if(Math.abs(dx)>Math.abs(dy)){dx>0?dirQ('right'):dirQ('left')}else{dy>0?dirQ('down'):dirQ('up')}},{passive:true});
-document.addEventListener('keydown',e=>{if(e.key=='ArrowLeft')dirQ('left');if(e.key=='ArrowRight')dirQ('right');if(e.key=='ArrowUp')dirQ('up');if(e.key=='ArrowDown')dirQ('down');if(e.key==' ')start()});init();
+<div class="controls" id="ctrls"><button class="cbtn" ontouchstart="dirQ('up')" onclick="dirQ('up')">▲</button><button class="cbtn" style="visibility:hidden"></button><button class="cbtn" style="visibility:hidden"></button><button class="cbtn" ontouchstart="dirQ('left')" onclick="dirQ('left')">◀</button><button class="cbtn" ontouchstart="dirQ('down')" onclick="dirQ('down')">▼</button><button class="cbtn" ontouchstart="dirQ('right')" onclick="dirQ('right')">▶</button></div>
+<div class="footer">Made with 💚 by Hero • V2 Full Screen Edition</div>
+</div>
+<script>
+let cv=document.getElementById('c'),ctx=cv.getContext('2d'),box=20,snake=[],dir='right',next='right',food,score=0,best=localStorage.getItem('snakeBest')||0,loop,level=90;
+document.getElementById('b').innerText=best;
+let audioCtx,settings={sound:true,music:true,vib:true,ctrl:'both',skin:'#22c55e',level:90};
+let musicGain,musicPlaying=false,musicNotes=[130,146,164,196,220,196,164,146,130,130,196,220,246,220,196,164],musicIdx=0;
+function getAudio(){try{if(!audioCtx)audioCtx=new(window.AudioContext||window.webkitAudioContext)();if(audioCtx.state==='suspended')audioCtx.resume();}catch(e){}return audioCtx}
+function beep(f,d,type='sine',vol=0.15){if(!settings.sound)return;let a=getAudio();if(!a)return;let o=a.createOscillator(),g=a.createGain();o.type=type;o.frequency.value=f;g.gain.setValueAtTime(vol,a.currentTime);g.gain.exponentialRampToValueAtTime(0.001,a.currentTime+d);o.connect(g);g.connect(a.destination);o.start();o.stop(a.currentTime+d);}
+function eatSound(){beep(600,0.12,'sine',0.25);setTimeout(()=>beep(900,0.15,'sine',0.25),80);if(settings.vib&&navigator.vibrate)navigator.vibrate(60)}
+function dieSound(){beep(180,0.4,'sawtooth',0.3);setTimeout(()=>beep(90,0.6,'sawtooth',0.3),150);if(settings.vib&&navigator.vibrate)navigator.vibrate([100,50,100])}
+function startMusic(){if(!settings.music||musicPlaying)return;let a=getAudio();if(!a)return;musicGain=a.createGain();musicGain.gain.value=0.04;musicGain.connect(a.destination);musicPlaying=true;playMusicLoop();}
+function stopMusic(){musicPlaying=false}
+function playMusicLoop(){if(!musicPlaying||!settings.music)return;let a=getAudio();if(!a)return;let o=a.createOscillator(),g=a.createGain();o.type='triangle';o.frequency.value=musicNotes[musicIdx%musicNotes.length];g.gain.setValueAtTime(0,a.currentTime);g.gain.linearRampToValueAtTime(0.12,a.currentTime+0.1);g.gain.linearRampToValueAtTime(0,a.currentTime+0.5);o.connect(g);g.connect(musicGain);o.start();o.stop(a.currentTime+0.55);musicIdx++;setTimeout(playMusicLoop,600);}
+function setSkin(c,el){settings.skin=c;document.querySelectorAll('.skin').forEach(x=>x.classList.remove('active'));el.classList.add('active');localStorage.setItem('snakeSkin',c)}
+function spawn(){food={x:Math.floor(Math.random()*19+1)*box,y:Math.floor(Math.random()*19+1)*box};if(snake.some(s=>s.x==food.x&&s.y==food.y))spawn();}
+function init(){snake=[{x:10*box,y:10*box},{x:9*box,y:10*box},{x:8*box,y:10*box}];dir='right';next='right';score=0;document.getElementById('s').innerText=0}
+function drawGrid(){ctx.fillStyle='#0e1e36';for(let i=0;i<20;i++)for(let j=0;j<20;j++)if((i+j)%2==0){ctx.fillRect(i*box,j*box,box,box)}}
+function draw(){drawGrid();ctx.shadowBlur=15;ctx.shadowColor=settings.skin;snake.forEach((s,i)=>{ctx.fillStyle=i==0?settings.skin:settings.skin+'aa';ctx.beginPath();ctx.arc(s.x+box/2,s.y+box/2,i==0?9:7,0,Math.PI*2);ctx.fill();});ctx.shadowBlur=0;ctx.fillStyle='#ff5a65';ctx.beginPath();ctx.arc(food.x+10,food.y+10,8,0,Math.PI*2);ctx.fill();}
+function dirQ(d){if(d=='left'&&dir!='right')next='left';if(d=='right'&&dir!='left')next='right';if(d=='up'&&dir!='down')next='up';if(d=='down'&&dir!='up')next='down';}
+function start(){document.getElementById('ui').classList.add('hide');init();clearInterval(loop);loop=setInterval(drawLoop,settings.level);spawn();startMusic();closeSet();}
+function drawLoop(){dir=next;let head={...snake[0]};if(dir=='left')head.x-=box;if(dir=='right')head.x+=box;if(dir=='up')head.y-=box;if(dir=='down')head.y+=box;if(head.x<0||head.x>=400||head.y<0||head.y>=400||snake.some(s=>s.x==head.x&&s.y==head.y)){clearInterval(loop);dieSound();stopMusic();if(score>best){best=score;localStorage.setItem('snakeBest',best);document.getElementById('b').innerText=best;}document.getElementById('ui').classList.remove('hide');document.getElementById('ui').querySelector('h1').innerHTML=`SCORE <span>${score}</span>`;return;}snake.unshift(head);if(head.x==food.x&&head.y==food.y){score+=(level<=65?2:1);document.getElementById('s').innerText=score;eatSound();spawn();}else snake.pop();draw();}
+function openSet(){document.getElementById('settings').classList.add('open')}function closeSet(){document.getElementById('settings').classList.remove('open')}
+function setLevel(l,el){settings.level=l;level=l;el.parentElement.querySelectorAll('.lvl').forEach(x=>x.classList.remove('active'));el.classList.add('active');document.getElementById('lvlBadge').innerText=el.innerText;localStorage.setItem('snakeLevel',l);if(loop){clearInterval(loop);loop=setInterval(drawLoop,l)}}
+function setCtrl(c,el){settings.ctrl=c;let p=document.getElementById('ctrls');el.parentElement.querySelectorAll('.lvl').forEach(x=>x.classList.remove('active'));el.classList.add('active');if(c=='swipe'){p.style.display='none'}else{p.style.display='grid';}localStorage.setItem('snakeCtrl',c)}
+function togSound(){settings.sound=!settings.sound;document.getElementById('swSound').classList.toggle('on',settings.sound);beep(500,0.1);localStorage.setItem('snakeSound',settings.sound)}
+function togMusic(){settings.music=!settings.music;document.getElementById('swMusic').classList.toggle('on',settings.music);if(settings.music)startMusic();else stopMusic();localStorage.setItem('snakeMusic',settings.music)}
+function togVib(){settings.vib=!settings.vib;document.getElementById('swVib').classList.toggle('on',settings.vib);if(settings.vib&&navigator.vibrate)navigator.vibrate(40);localStorage.setItem('snakeVib',settings.vib)}
+function shareGame(){let t=`🐍 Snake Pro Max me mera score ${score} hai! Best: ${best} - khelo: https://naveedaziz2312.github.io/tarteel-clone/`;if(navigator.share)navigator.share({title:'Snake Pro Max',text:t});else{navigator.clipboard.writeText(t);alert('Link copied! 🚀')}}
+let sx,sy;cv.addEventListener('touchstart',e=>{sx=e.touches[0].clientX;sy=e.touches[0].clientY},{passive:true});cv.addEventListener('touchend',e=>{if(!sx)return;let dx=e.changedTouches[0].clientX-sx,dy=e.changedTouches[0].clientY-sy;if(Math.abs(dx)>Math.abs(dy)){if(dx>20)dirQ('right');else if(dx<-20)dirQ('left')}else{if(dy>20)dirQ('down');else if(dy<-20)dirQ('up')}sx=null},{passive:true});
+document.addEventListener('keydown',e=>{if(e.key=='ArrowLeft')dirQ('left');if(e.key=='ArrowRight')dirQ('right');if(e.key=='ArrowUp')dirQ('up');if(e.key=='ArrowDown')dirQ('down')});
+window.addEventListener('load',()=>{let s=localStorage.getItem('snakeSkin');if(s)settings.skin=s;let l=localStorage.getItem('snakeLevel');if(l){settings.level=parseInt(l);level=parseInt(l)}let mu=localStorage.getItem('snakeMusic');if(mu!==null)settings.music=mu==='true';let so=localStorage.getItem('snakeSound');if(so!==null)settings.sound=so==='true';let vi=localStorage.getItem('snakeVib');if(vi!==null)settings.vib=vi==='true';document.getElementById('swMusic').className='switch'+(settings.music?' on':'');document.getElementById('swSound').className='switch'+(settings.sound?' on':'');document.getElementById('swVib').className='switch'+(settings.vib?' on':'');drawGrid();});
 </script>
 </body>
-</html>
+                                                               </html>
