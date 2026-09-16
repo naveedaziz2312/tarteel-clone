@@ -1,14 +1,63 @@
-<!DOCTYPE html><html dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Hifz Final</title><style>body{background:#f0faf4;text-align:center;padding:10px;font-family:sans-serif}.h{background:#0d8a5e;color:#fff;padding:15px;border-radius:14px}select{padding:12px;margin:4px;border-radius:10px;border:2px solid #0d8a5e;width:48%}#box{background:#fff;padding:25px;border-radius:16px;margin:15px 0;min-height:200px;font-size:33px;line-height:2.8}button{padding:16px 40px;background:#0d8a5e;color:#fff;border:none;border-radius:50px;font-size:20px}#st{background:#fffbe6;padding:12px;border-radius:10px;margin-top:10px}.ok{color:#0d8a5e}.bad{color:#fff;background:red;padding:3px 8px;border-radius:6px;text-decoration:underline wavy yellow 3px}</style></head><body><div class="h"><h3 style="margin:0">🕌 ترتیل - حفظ ٹیسٹ FINAL</h3><small>خالی سے شروع، جو پڑھو گے وہی آئے گا</small></div><select id="p" onchange="loadJ()"></select><select id="s" onchange="loadS()"></select><div id="box">خالی ہے...</div><button onclick="mic()" id="b">🎙️ شروع کرو</button><div id="st">Para select karo</div><script>
-let p=document.getElementById('p'),s=document.getElementById('s'),box=document.getElementById('box'),st=document.getElementById('st'),words=[],ci=0,ayahs=[],ai=0,rec=null,list=false,shown=[];
-for(let i=1;i<=30;i++){let o=document.createElement('option');o.value=i;o.textContent='Para '+i;if(i==30)o.selected=true;p.appendChild(o)}
-let names=["الفاتحة","البقرة","آل عمران","النساء","المائدة","الأنعام","الأعراف","الأنفال","التوبة","يونس","هود","يوسف","الرعد","إبراهيم","الحجر","النحل","الإسراء","الكهف","مريم","طه","الأنبياء","الحج","المؤمنون","النور","الفرقان","الشعراء","النمل","القصص","العنكبوت","الروم","لقمان","السجدة","الأحزاب","سبأ","فاطر","يس","الصافات","ص","الزمر","غافر","فصلت","الشورى","الزخرف","الدخان","الجاثية","الأحقاف","محمد","الفتح","الحجرات","ق","الذاريات","الطور","النجم","القمر","الرحمن","الواقعة","الحديد","المجادلة","الحشر","الممتحنة","الصف","الجمعة","المنافقون","التغابن","الطلاق","التحريم","الملك","القلم","الحاقة","المعارج","نوح","الجن","المزمل","المدثر","القيامة","الإنسان","المرسلات","النبأ","النازعات","عبس","التكوير","الانفطار","المطففين","الانشقاق","البروج","الطارق","الأعلى","الغاشية","الفجر","البلد","الشمس","الليل","الضحى","الشرح","التين","العلق","القدر","البينة","الزلزلة","العاديات","القارعة","التكاثر","العصر","الهمزة","الفيل","قريش","الماعون","الكوثر","الكافرون","النصر","المسد","الإخلاص","الفلق","الناس"];
-names.forEach((n,i)=>{let o=document.createElement('option');o.value=i+1;o.textContent=(i+1)+'. '+n;s.appendChild(o)})
-function render(){if(shown.length==0){box.innerHTML='<span style="color:#aaa">خالی ہے، حفظ سے پڑھو</span>';return}box.innerHTML=shown.map(x=>`<span class="${x.ok?'ok':'bad'}">${x.t}</span>`).join(' ')}
-function setA(i){if(i<0||i>=ayahs.length)return;ai=i;words=ayahs[i].text.split(' ').filter(x=>x);ci=0;if(i==0)shown=[];render();st.innerHTML='Ayah '+(ai+1)+' - Hifz se parho'}
-function loadJ(){fetch('https://api.alquran.cloud/v1/juz/'+p.value+'/quran-uthmani').then(r=>r.json()).then(d=>{ayahs=d.data.ayahs;setA(0);st.innerHTML='Para '+p.value+' load ho gaya'})}
-function loadS(){fetch('https://api.alquran.cloud/v1/surah/'+s.value).then(r=>r.json()).then(d=>{ayahs=d.data.ayahs;setA(0);st.innerHTML=names[s.value-1]+' load'})}
-function norm(a){return a.replace(/[ًٌٍَُِّْـ]/g,'').trim()}
-function check(sp){if(ci>=words.length){if(ai+1<ayahs.length)setA(ai+1);return}let ex=words[ci];let ok=norm(ex).includes(norm(sp).slice(0,2))||norm(sp).includes(norm(ex).slice(0,2))||norm(ex)==norm(sp);shown.push({t:ex,ok:ok});ci++;render();if(ok){st.innerHTML='✅ '+ex+' sahi';if(ci>=words.length)setTimeout(()=>{if(ai+1<ayahs.length)setA(ai+1)},1000)}else{st.innerHTML='❌ Ghalat! Sahi: <b style="color:red">'+ex+'</b> - Aap ne '+sp+' parha'}}
-function mic(){if(list){rec.stop();list=false;b.innerText='🎙️ شروع کرو';b.style.background='#0d8a5e';return}let SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR){alert('Chrome me kholo');return}rec=new SR();rec.lang='ar-SA';rec.continuous=true;rec.interimResults=false;rec.start();list=true;b.innerText='⏹️ بند کرو';b.style.background='red';st.innerHTML='🎧 Sun raha hun...';rec.onresult=e=>{let last=e.results[e.results.length-1][0].transcript.trim().split(' ').pop();check(last)};rec.onend=()=>{if(list)rec.start()}}
-loadJ();
-</script></body></html>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+<title>Snake Pro - Hero Game</title>
+<style>
+body{margin:0;background:#0f172a;color:white;text-align:center;font-family:sans-serif;touch-action:none}
+h2{margin:10px;color:#22c55e}
+#scoreBox{font-size:20px;margin:10px}
+canvas{background:#1e293b;border:4px solid #22c55e;border-radius:12px;display:block;margin:10px auto;box-shadow:0 0 20px #22c55e66}
+.controls{display:grid;grid-template-columns:60px 60px 60px;gap:10px;justify-content:center;margin:20px}
+.btn{background:#22c55e;color:#000;font-size:24px;padding:18px;border:none;border-radius:12px;font-weight:bold;box-shadow:0 4px 0 #15803d}
+.btn:active{transform:translateY(3px);box-shadow:0 1px 0 #15803d}
+#startBtn{padding:15px 50px;font-size:22px;background:#facc15;border-radius:50px;margin:10px}
+</style>
+</head>
+<body>
+<h2>🐍 SNAKE GAME - HERO</h2>
+<div id="scoreBox">Score: <span id="score">0</span> | High: <span id="high">0</span></div>
+<canvas id="game" width="320" height="320"></canvas>
+<button id="startBtn" onclick="startGame()">▶️ PLAY</button>
+<div class="controls">
+<div></div><button class="btn" onclick="changeDir('up')">▲</button><div></div>
+<button class="btn" onclick="changeDir('left')">◀</button><button class="btn" onclick="changeDir('down')">▼</button><button class="btn" onclick="changeDir('right')">▶</button>
+</div>
+<script>
+let canvas=document.getElementById('game'),ctx=canvas.getContext('2d');
+let box=16, snake, dir, food, score, gameLoop, high=localStorage.getItem('snakeHigh')||0;
+document.getElementById('high').innerText=high;
+function init(){
+snake=[{x:9*box,y:10*box}]; dir='right'; score=0;
+document.getElementById('score').innerText=score;
+food={x:Math.floor(Math.random()*19+1)*box,y:Math.floor(Math.random()*19+1)*box};
+}
+function draw(){
+ctx.fillStyle='#1e293b'; ctx.fillRect(0,0,320,320);
+snake.forEach((s,i)=>{
+ctx.fillStyle=i==0?'#22c55e':'#4ade80';
+ctx.fillRect(s.x,s.y,box-1,box-1);
+});
+ctx.fillStyle='#f87171'; ctx.fillRect(food.x,food.y,box-1,box-1);
+let head={x:snake[0].x,y:snake[0].y};
+if(dir=='left') head.x-=box; if(dir=='right') head.x+=box; if(dir=='up') head.y-=box; if(dir=='down') head.y+=box;
+if(head.x<0||head.x>=320||head.y<0||head.y>=320||snake.some(s=>s.x==head.x&&s.y==head.y)){gameOver();return;}
+snake.unshift(head);
+if(head.x==food.x&&head.y==food.y){score++;document.getElementById('score').innerText=score;if(score>high){high=score;localStorage.setItem('snakeHigh',high);document.getElementById('high').innerText=high}food={x:Math.floor(Math.random()*19+1)*box,y:Math.floor(Math.random()*19+1)*box};}else snake.pop();
+}
+function changeDir(d){
+if(d=='left'&&dir!='right') dir='left';
+if(d=='right'&&dir!='left') dir='right';
+if(d=='up'&&dir!='down') dir='up';
+if(d=='down'&&dir!='up') dir='down';
+}
+function startGame(){init();clearInterval(gameLoop);gameLoop=setInterval(draw,120);document.getElementById('startBtn').innerText='🔄 RESTART';}
+function gameOver(){clearInterval(gameLoop);ctx.fillStyle='rgba(0,0,0,0.7)';ctx.fillRect(0,0,320,320);ctx.fillStyle='white';ctx.font='24px sans-serif';ctx.fillText('GAME OVER!',80,160);ctx.fillText('Score: '+score,110,190);document.getElementById('startBtn').innerText='▶️ PLAY AGAIN';}
+document.addEventListener('keydown',e=>{if(e.key=='ArrowLeft')changeDir('left');if(e.key=='ArrowRight')changeDir('right');if(e.key=='ArrowUp')changeDir('up');if(e.key=='ArrowDown')changeDir('down');});
+// swipe
+let sx,sy;canvas.addEventListener('touchstart',e=>{sx=e.touches[0].clientX;sy=e.touches[0].clientY});canvas.addEventListener('touchend',e=>{let dx=e.changedTouches[0].clientX-sx,dy=e.changedTouches[0].clientY-sy;if(Math.abs(dx)>Math.abs(dy)){if(dx>0)changeDir('right');else changeDir('left')}else{if(dy>0)changeDir('down');else changeDir('up')}});
+init();
+</script>
+</body>
+</html>
